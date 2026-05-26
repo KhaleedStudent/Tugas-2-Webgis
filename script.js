@@ -1,44 +1,40 @@
-// 1. Mengatur titik fokus awal kamera peta ke arah Kota Kediri
-var map = L.map('map').setView([-7.817, 112.011], 13);
-
-// 2. Memanggil Peta Dasar (Basemap OpenStreetMap)
-var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-// 3. Fungsi membuat Popup Interaktif ketika objek peta diklik
-function infoPopup(feature, layer) {
-    if (feature.properties) {
-        var namaLokal = feature.properties.NAMOBJ || feature.properties.nama || "Lokasi Tanpa Nama";
-        var infoBencana = feature.properties.KETERANGAN || "Kawasan Rawan Bencana";
-        layer.bindPopup("<b>Nama Objek:</b> " + namaLokal + "<br><b>Status:</b> " + infoBencana);
-    }
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 
-// 4. Memasukkan Layer Poligon Batas Wilayah Kediri ke Peta web
-var layerBatas = L.geoJSON(dataBatas, {
-    style: {
-        color: "#2c3e50",
-        weight: 2,
-        fillColor: "#34495e",
-        fillOpacity: 0.3
-    },
-    onEachFeature: infoPopup
-}).addTo(map);
+#header {
+    text-align: center;
+    background: #2c3e50;
+    color: white;
+    padding: 12px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 1000;
+}
 
-// 5. Memasukkan Layer Titik Bahaya Bencana ke Peta web
-var layerTitik = L.geoJSON(dataTitik, {
-    onEachFeature: infoPopup
-}).addTo(map);
+#header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+}
 
-// 6. Fitur Kontrol Layer (Layer Toggle) di pojok kanan atas
-var baseMaps = {
-    "OpenStreetMap": osm
-};
+#header h3 {
+    margin: 5px 0 0 0;
+    font-size: 1.1rem;
+    color: #2ecc71; /* Warna hijau segar bertema pendidikan dasar */
+}
 
-var overlayMaps = {
-    "Batas Administrasi Kediri": layerBatas,
-    "Titik Potensi Bencana": layerTitik
-};
+#header p {
+    margin: 5px 0 0 0;
+    font-size: 0.85rem;
+    color: #bdc3c7;
+}
 
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+#map {
+    width: 100%;
+    height: calc(100vh - 95px); /* Memotong tinggi agar pas di bawah header */
+}
